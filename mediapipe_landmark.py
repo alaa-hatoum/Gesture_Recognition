@@ -2,11 +2,17 @@ import cv2
 import mediapipe as mp
 import math
 import numpy as np
+from picamera2 import Picamera2
+
 
 mp_drawing = mp.solutions.drawing_utils
 mp_hands = mp.solutions.hands
 
+ 
+
 cap = cv2.VideoCapture(0)
+cap.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'))
+
 counter = 0
 with mp_hands.Hands(
     model_complexity=0,
@@ -18,6 +24,7 @@ with mp_hands.Hands(
       print("Ignoring empty camera frame.")
       # If loading a video, use 'break' instead of 'continue'.
       continue
+      
 
     # To improve performance, optionally mark the image as not writeable to
     # pass by reference.
