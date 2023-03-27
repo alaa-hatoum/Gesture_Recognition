@@ -2,11 +2,15 @@ import cv2
 import mediapipe as mp
 import math
 import numpy as np
+from picamera2 import Picamera2
+
 
 mp_drawing = mp.solutions.drawing_utils
 mp_hands = mp.solutions.hands
 
 cap = cv2.VideoCapture(0)
+cap.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'))
+
 counter = 0
 # with mp_hands.Hands(
 #     model_complexity=0,
@@ -182,7 +186,7 @@ knryC = 0
 knpxC = 0
 knpyC = 0
 
-cap = cv2.VideoCapture(0)
+# cap = cv2.VideoCapture(0)
 with mp_hands.Hands(
     model_complexity=0,
     min_detection_confidence=0.5,
@@ -267,7 +271,7 @@ with mp_hands.Hands(
         pnk_ratC = math.sqrt((pnkxC-knpxC)**2 + (pnkyC-knpyC)**2)/(math.sqrt((pnkxC-knpxC)**2 + (pnkyC-knpyC)**2) + knp_disC)
 
     # Flip the image horizontally for a selfie-view display.
-    cv2.imshow('MediaPipe Hands', cv2.flip(image, 1))
+    # cv2.imshow('MediaPipe Hands', cv2.flip(image, 1))
     if cv2.waitKey(5) & 0xFF == ord("q"):
       break
 cap.release()
