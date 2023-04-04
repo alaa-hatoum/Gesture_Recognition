@@ -142,7 +142,7 @@ def get_hand_state():
                 # pnk_ratC = math.sqrt((pnkxC-knpxC)**2 + (pnkyC-knpyC)**2)/(math.sqrt((pnkxC-knpxC)**2 + (pnkyC-knpyC)**2) + knp_disC)
 
                 # Flip the image horizontally for a selfie-view display.
-                cv2.imshow('MediaPipe Hands', cv2.flip(image, 1))
+                #cv2.imshow('MediaPipe Hands', cv2.flip(image, 1))
                 if cv2.waitKey(5) & 0xFF == ord("q"):
                     cap.release()
 
