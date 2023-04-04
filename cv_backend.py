@@ -112,7 +112,7 @@ def get_hand_state():
                 rng_disC = math.sqrt((rngxC - wrstxC) ** 2 + (rngyC - wrstyC) ** 2)
                 pnk_disC = math.sqrt((pnkxC - wrstxC) ** 2 + (pnkyC - wrstyC) ** 2)
 
-                thm_disC = math.sqrt((thmxC - knpxC) ** 2 + (thmyC - knpyC) ** 2) * 1.25
+                thm_disC = math.sqrt((thmxC - knpxC) ** 2 + (thmyC - knpyC) ** 2) * 1.05
                 thmk_disC = math.sqrt((thmkxC - knpxC) ** 2 + (thmkyC - knpyC) ** 2)
 
                 kni_disC = math.sqrt((wrstxC - knixC) ** 2 + (wrstyC - kniyC) ** 2)
@@ -160,4 +160,4 @@ if __name__ == "__main__":
         ser.write(num)
         # line = ser.readline().decode('utf-8').rstrip()
         # print(line)
-        # time.sleep(1)
+        # time.sleep(1)  

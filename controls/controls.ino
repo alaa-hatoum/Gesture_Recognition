@@ -12,7 +12,7 @@ void setup() {
   mythumb.write(30);
 
   myindex.attach(9);
-  myindex.write(90); // make sure the motor is stopped
+  myindex.write(90); // make sure the motor is stopped 
 
   mymiddle.attach(10);
   mymiddle.write(0);
@@ -28,22 +28,28 @@ char data;
 char index_closed = 0;
 char pinky_closed = 0;
 
-char index_turning = 0;
-char pinky_turning = 0;
+char index_turning = 0; // 0 if not doing anything, 1 if closed -> raised, 2 if raised -> closed
+char pinky_turning = 0; // 0 if not doing anything, 1 if closed -> raised, 2 if raised -> closed
 
 unsigned long index_rot_start = 0;
 unsigned long pinky_rot_start = 0;
 
 void loop() {
-  if (index_turning && millis() - index_rot_start >= 400) {
+  if (index_turning == 1 && millis() - index_rot_start >= 400) {
     myindex.write(90);
     index_turning = 0;
-    }
+  } else if (index_turning == 2 && millis() - index_rot_start >= 420) { // raised -> closed
+    myindex.write(90);
+    index_turning = 0;
+  }
 
-  if (pinky_turning && millis() - pinky_rot_start >= 300) {
+  if (pinky_turning == 1 && millis() - pinky_rot_start >= 300) { // closed -> raised
     mypinky.write(90);
     pinky_turning = 0;
-    }
+  } else if (pinky_turning == 2 && millis() - pinky_rot_start >= 310) { // raised -> closed
+    mypinky.write(90);
+    pinky_turning = 0;
+  }
 
   
   if (Serial.available() > 0) {
@@ -79,7 +85,7 @@ void loop() {
       if (pinky_closed == 1) {
         pinky_rot_start = millis();
         pinky_turning = 1;
-        mypinky.write(45); // Turning cw
+        mypinky.write(135); // Turning cw
         //delay(300);
         //mypinky.write(90);
         pinky_closed = 0;
@@ -89,8 +95,8 @@ void loop() {
     } else {
       if (pinky_closed == 0) {
         pinky_rot_start = millis();
-        pinky_turning = 1;
-        mypinky.write(135); // Turning ccw
+        pinky_turning = 2;
+        mypinky.write(45); // Turning ccw
         //delay(300);
         //mypinky.write(90);
         pinky_closed = 1;
@@ -115,7 +121,7 @@ void loop() {
     } else {
       if (index_closed == 0) {
         index_rot_start = millis();
-        index_turning = 1;
+        index_turning = 2;
         myindex.write(45); // Turning cw
         //delay(350);
         //myindex.write(90);
