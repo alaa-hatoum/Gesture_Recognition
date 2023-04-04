@@ -28,7 +28,24 @@ char data;
 char index_closed = 0;
 char pinky_closed = 0;
 
+char index_turning = 0;
+char pinky_turning = 0;
+
+unsigned long index_rot_start = 0;
+unsigned long pinky_rot_start = 0;
+
 void loop() {
+  if (index_turning && millis() - index_rot_start >= 400) {
+    myindex.write(90);
+    index_turning = 0;
+    }
+
+  if (pinky_turning && millis() - pinky_rot_start >= 300) {
+    mypinky.write(90);
+    pinky_turning = 0;
+    }
+
+  
   if (Serial.available() > 0) {
     data = Serial.read();
     Serial.print("Received: ");
@@ -60,39 +77,48 @@ void loop() {
     if (data & 1) {
       Serial.println("raise pinky");
       if (pinky_closed == 1) {
+        pinky_rot_start = millis();
+        pinky_turning = 1;
         mypinky.write(45); // Turning cw
-        delay(300);
-        mypinky.write(90);
+        //delay(300);
+        //mypinky.write(90);
         pinky_closed = 0;
       } else {
         mypinky.write(90);
       }
     } else {
       if (pinky_closed == 0) {
+        pinky_rot_start = millis();
+        pinky_turning = 1;
         mypinky.write(135); // Turning ccw
-        delay(300);
-        mypinky.write(90);
+        //delay(300);
+        //mypinky.write(90);
         pinky_closed = 1;
       } else {
         mypinky.write(90);
       }
     }
 
+
     if (data & 8) {
       Serial.println("raise index");
       if (index_closed == 1) {
+        index_rot_start = millis();
+        index_turning = 1; 
         myindex.write(135); // Turning ccw
-        delay(400);
-        myindex.write(90);
+        //delay(400);
+        //myindex.write(90);
         index_closed = 0;
       } else {
         myindex.write(90);
       }
     } else {
       if (index_closed == 0) {
+        index_rot_start = millis();
+        index_turning = 1;
         myindex.write(45); // Turning cw
-        delay(350);
-        myindex.write(90);
+        //delay(350);
+        //myindex.write(90);
         index_closed = 1;
       } else {
         myindex.write(90);
